@@ -1,0 +1,8 @@
+.invalid-feedback {
+  display: block;
+}
+
+input.ng-invalid.ng-dirty,
+input.ng-invalid.ng-touched {
+  border-color: red;
+}
