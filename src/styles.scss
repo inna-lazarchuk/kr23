@@ -1,7 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+.products {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
 
-
-
+.card {
+  max-width: 420px;
+  height: 800px;
+}
 
 
 /* Importing Bootstrap SCSS file. */
