@@ -1,19 +1,24 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
 import {ProductType} from "../../../../types/product.type";
 import {ProductsService} from "../../services/products.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'product-component',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, OnDestroy {
+  @Input() id: number | undefined;
   private products: ProductType[] = [];
   product: ProductType;
+  subscriptionProducts: Subscription | null = null;
+  subscriptionParams: Subscription | null = null;
 
   constructor(private activatedRoute: ActivatedRoute,
               private productsService: ProductsService) {
+
     this.product = {
       id: 0,
       image: '',
@@ -24,25 +29,36 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
-      if (params['id']) {
-        this.productsService.getProducts().subscribe(data => {
-          this.products = data;
-          this.product = this.products.find((item: ProductType) => {
-            item.id = +params['id'];
-           return item;
-          }) as ProductType;
-          console.log(this.product)
-          //
-          // if (productItem) {
-          //   this.product.id = productItem.id;
-          //   this.product.image = productItem.image;
-          //   this.product.title = productItem.title;
-          //   this.product.price = productItem.price;
-          //   this.product.description = productItem.description;
-          // }
-        })
-      }
-    })
+    this.subscriptionParams = this.activatedRoute.params
+      .subscribe({
+        next: (params: Params) => {
+          let id = +params['id'];
+          this.subscriptionProducts = this.productsService.getProducts()
+            .subscribe({
+              next: (data) => {
+                let productItem = data.find((product) => {
+                  return product.id === id;
+                })
+                if(productItem) {
+                  this.product.image = productItem.image;
+                  this.product.title = productItem.title;
+                  this.product.price = productItem.price
+                  this.product.description = productItem.description
+                }
+              },
+              error: (error) => {
+                console.log(error)
+              }
+            })
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      })
+  }
+
+  ngOnDestroy() {
+    this.subscriptionParams?.unsubscribe();
+    this.subscriptionProducts?.unsubscribe();
   }
 }
