@@ -3,6 +3,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {Subscription} from "rxjs";
 import {FormBuilder, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
+import {disableDebugTools} from "@angular/platform-browser";
 
 @Component({
   selector: 'order-component',
@@ -83,4 +84,5 @@ export class OrderComponent implements OnInit, OnDestroy {
 
   }
 
+  protected readonly disableDebugTools = disableDebugTools;
 }

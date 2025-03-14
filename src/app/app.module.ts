@@ -12,22 +12,25 @@ import {OrderModule} from "./feature/order/order.module";
 import {ProductsModule} from "./feature/products/products.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent,
-  ],
-  imports: [
-    SharedModule,
-    MainModule,
-    OrderModule,
-    ProductsModule,
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    NgbModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        // FooterComponent,
+    ],
+    imports: [
+        SharedModule,
+        MainModule,
+        OrderModule,
+        ProductsModule,
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        NgbModule
+    ],
+    providers: [],
+    exports: [
+
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
