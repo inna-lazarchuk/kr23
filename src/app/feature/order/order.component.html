@@ -1,10 +1,10 @@
-<div class="container py-5 text-center justify-content-center">
-  <section>
+<div class="container layout py-5 text-center justify-content-center">
+  <section class="order">
     <div class="form col-md-8 col-12 mx-auto">
       <h2 class="my-5 lh-1 fw-bold" *ngIf="!orderSuccess">Сделать заказ</h2>
-      <form [formGroup]="formValues" class="needs-validation row g-3 text-start m-auto w-75" novalidate *ngIf="!orderSuccess">
+      <form (ngSubmit)="createOrder()"
+        [formGroup]="formValues" class="needs-validation row g-3 text-start m-auto w-75" novalidate *ngIf="!orderSuccess">
         <div class="row">
-
           <div class="col-12">
             <label for="inputProduct" class="form-label fw-bolder">Товар</label>
             <input type="text" class="form-control" id="inputProduct" formControlName="productTitle"
@@ -107,7 +107,7 @@
           </div>
 
           <div class="col-12 mt-3">
-            <button type="button" class="btn btn-primary px-4 hvr-grow-shadow" id="create_order" (click)="createOrder()">
+            <button type="submit" class="btn btn-primary px-4 hvr-grow-shadow" id="create_order" [disabled]="formValues.invalid || formValues.disabled">
               Отправить
             </button>
             <div class="invalid-feedback" *ngIf="orderNotSuccess">Произошла ошибка. Попробуйте еще раз.</div>
@@ -121,4 +121,5 @@
       </h2>
     </div>
   </section>
+  <footer-component></footer-component>
 </div>
